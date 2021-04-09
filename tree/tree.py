@@ -1,6 +1,6 @@
 import functools
 import json
-from gdf import graph, nlp
+from tree import graph, nlp
 import networkx as nx
 import pandas as pd
 import matplotlib.cm as cm
@@ -140,7 +140,7 @@ class TreeAccessor:
                 sub_df = sub_df.append(child_sub_df)
         return sub_df
 
-    def cluster_keywords(self, cid):
+    def keywords(self, cid):
         # word_and_score = nlp.extract_keywords(corpus, nb_keywords=nlp.word_count(corpus))
         # return [word for word in word_and_score.keys()]
         # return str(self.sub_df(self, cid)['target'].value_counts(normalize=True).
@@ -148,21 +148,21 @@ class TreeAccessor:
         corpus = ';'.join(list(self.sub_df(self, cid)['text']))
         return nlp.google_extract_keywords(corpus=corpus)
 
-    def cluster_dict(self, cid):
+    def to_dict(self, cid):
         node = {
-            'name': '\n'.join(self.cluster_keywords(cid)),
+            # 'name': '\n'.join(self.keywords(cid)),
             'ID': int(cid),
-            'size': int(self.cluster_size(cid))
+            'size': int(self.size(cid))
         }
 
         children = self.children(cid)
         if children:
-            node['children'] = [self.cluster_dict(child) for child in children]
+            node['children'] = [self.to_dict(child) for child in children]
         return node
 
-    def node_to_json_file(self, cid, filename):
+    def to_json_file(self, cid, filename):
         with open(filename, 'w') as fp:
-            json.dump(self.cluster_dict(cid), fp)
+            json.dump(self.to_dict(cid), fp)
 
     def update_graph_df(self, subgraph_df):
         latest_cluster_id = max(self._obj['cluster_id'])
