@@ -23,6 +23,7 @@ setuptools.setup(
         'sentence_transformers',
         'nltk',
         'keybert',
+        'pyasn1',
         'google-cloud-language',
       ],
     classifiers=[

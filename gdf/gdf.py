@@ -1,17 +1,16 @@
 import functools
 import json
-from . import graph, nlp
+from gdf import graph, nlp
 import networkx as nx
 import pandas as pd
-import numpy as np
 import matplotlib.cm as cm
 from sentence_transformers import SentenceTransformer
 from sklearn.metrics.pairwise import cosine_similarity
 import matplotlib.pyplot as plt
 
 
-@pd.api.extensions.register_dataframe_accessor("graph")
-class GraphAccessor:
+@pd.api.extensions.register_dataframe_accessor("tree")
+class TreeAccessor:
     def __init__(self, pandas_obj, compute_edges_with=None):
         self._validate(pandas_obj)
         self._obj = pandas_obj
@@ -30,7 +29,7 @@ class GraphAccessor:
         # verify there is a column text
         columns_to_have = ['cluster_size', 'parent_cluster_id', 'path']
 
-        if set(columns_to_have).issubset(set(self._obj.columns)):
+        if not set(columns_to_have).issubset(set(self._obj.columns)):
             self._obj['cluster_size'] = len(list(self._obj['text']))
             self._obj['parent_cluster_id'] = -1
             self._obj['cluster_id'] = 0

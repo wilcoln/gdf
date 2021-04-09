@@ -4,9 +4,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances_argmin_min
 
-# Download the corpus slicing utility
-nltk.download('punkt')
-
 
 def word_count(corpus) -> int:
     """Returns the number of words in a string.

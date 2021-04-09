@@ -1,6 +1,5 @@
 import unittest
-
-import nlp
+from utils import nlp
 
 
 class TestWordCount(unittest.TestCase):
