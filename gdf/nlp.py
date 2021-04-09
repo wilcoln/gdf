@@ -1,8 +1,11 @@
+from collections import Counter
+
 import nltk
 import yake
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.cluster import KMeans
 from sklearn.metrics import pairwise_distances_argmin_min
+from google.cloud import language_v1
 
 
 def word_count(corpus) -> int:
