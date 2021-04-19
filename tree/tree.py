@@ -240,11 +240,11 @@ def cluster_graph(G):
     return pd.DataFrame(rows_list)
 
 
-def default_compute_edges(df, lvl):
+def default_compute_edges(df, **kwargs):
         # Generate similarity matrix
         thresholds = [0.5, 0.57434918, 0.65975396, 0.75785828, 0.87055056, 1.]
 
-        question_ids = list(df['id'])
+        lvl = kwargs.get('lvl')
         questions = list(df['text'])
         embeddings = []
         p_model = SentenceTransformer('distiluse-base-multilingual-cased-v2')
@@ -266,11 +266,11 @@ def default_compute_edges(df, lvl):
         return edges
 
 
-def generate_graph(df, compute_edges, lvl):
+def generate_graph(df, compute_edges, **kwargs):
     G = nx.Graph()
 
     # Add edges
-    edges = compute_edges(df, lvl)
+    edges = compute_edges(df, **kwargs)
 
     # Add nodes
     question_ids = list(df['id'])
