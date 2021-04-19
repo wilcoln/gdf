@@ -1,1 +1,2 @@
-from tree import *
+from .tree import *
+name = 'tree'
